@@ -156,6 +156,163 @@ button {
 }
 </style>
 </head>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Periódicos importantes</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    background-image: url("imagenes/joco.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* MENÚ */
+nav {
+    width: 220px;
+    background: #2c3e50;
+    height: 100vh;
+    padding-top: 20px;
+    position: fixed;
+}
+
+nav a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    border-bottom: 1px solid #1f2a35;
+}
+
+nav a:hover {
+    background: #34495e;
+}
+
+/* CONTENIDO */
+.container {
+    margin-left: 240px;
+    padding: 25px;
+    width: calc(100% - 240px);
+}
+
+header {
+    background: #34495e;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* TARJETA */
+.card {
+    width: 350px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+    text-align: center;
+    overflow: hidden;
+}
+
+/* CARRUSEL */
+.carrusel-portada {
+    position: relative;
+    width: 100%;
+    height: 300px;
+}
+
+.slide-portada {
+    display: none;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: black;
+    color: white;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.prev { left: 0; }
+.next { right: 0; }
+
+button {
+    margin: 15px;
+    padding: 10px 20px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 🔴 MODAL (CORREGIDO, NO SE ABRE SOLO) */
+.modal {
+    display: none; /* 🔥 CLAVE */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 900px;
+    height: 80%;
+    border-radius: 10px;
+    padding: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.cerrar {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* CONTROLES */
+.controles {
+    text-align: center;
+}
+
+/* VISOR */
+#contenedorPDF {
+    flex: 1;
+    overflow: auto;
+    cursor: grab;
+}
+
+#visorPDF {
+    width: 100%;
+    height: 100%;
+    border: none;
+    transform-origin: top left;
+}
+</style>
+</head>
 
 <body>
 
@@ -181,15 +338,20 @@ button {
 <!-- IMAGEN = src -->
 <!-- PDF = data-pdf -->
 
-<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/pdf/junio1986.pdf">
-<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/pdf/julio1986.pdf">
-<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/pdf/noviembre1986.pdf">
-<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/pdf/diciembre1986.pdf">
-<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/pdf/enero1987.pdf">
-<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/pdf/febrero1987.pdf">
-<img src="img1985/correo.jpeg"  class="slide-portada" data-pdf="img1985/pdf/marzo1987.pdf">
+<!-- PERIÓDICOS -->
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/Junio1985.pdf">
 
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/Julio1985.pdf">
 
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/Agosto1985.pdf">
+
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/Septiembre1985.pdf">
+
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/Octubre1985.pdf">
+
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/Noviembre1985.pdf">
+
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/Diciembre1985.pdf">
 <!-- 🔥 DUPLICA HASTA 61 -->
 
 <button class="prev" onclick="cambiarSlide(-1)">❮</button>

@@ -1,0 +1,306 @@
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Periódicos importantes</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    background-image: url("imagenes/joco.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* MENÚ */
+nav {
+    width: 220px;
+    background: #2c3e50;
+    height: 100vh;
+    padding-top: 20px;
+    position: fixed;
+}
+
+nav a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    border-bottom: 1px solid #1f2a35;
+}
+
+nav a:hover {
+    background: #34495e;
+}
+
+/* CONTENIDO */
+.container {
+    margin-left: 240px;
+    padding: 25px;
+    width: calc(100% - 240px);
+}
+
+header {
+    background: #34495e;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* TARJETA */
+.card {
+    width: 350px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+    text-align: center;
+    overflow: hidden;
+}
+
+/* CARRUSEL */
+.carrusel-portada {
+    position: relative;
+    width: 100%;
+    height: 300px;
+}
+
+.slide-portada {
+    display: none;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: black;
+    color: white;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.prev { left: 0; }
+.next { right: 0; }
+
+button {
+    margin: 15px;
+    padding: 10px 20px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 🔴 MODAL (CORREGIDO, NO SE ABRE SOLO) */
+.modal {
+    display: none; /* 🔥 CLAVE */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 900px;
+    height: 80%;
+    border-radius: 10px;
+    padding: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.cerrar {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* CONTROLES */
+.controles {
+    text-align: center;
+}
+
+/* VISOR */
+#contenedorPDF {
+    flex: 1;
+    overflow: auto;
+    cursor: grab;
+}
+
+#visorPDF {
+    width: 100%;
+    height: 100%;
+    border: none;
+    transform-origin: top left;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="index1.html">Inicio</a>
+<a href="periodicos2.html">Periódicos</a>
+<a href="creadores.html">Creadores y colaboradores</a>
+<a href="galeria.html">Galería</a>
+<a href="creditos.html">Créditos</a>
+</nav>
+
+<div class="container">
+
+<header>
+<h1>"XOCOTITLAN CIUDAD HEROICA Y CON ENCANTO"</h1>
+<p>Historia basada en los periódicos de Jocotitlán</p>
+</header>
+
+<div class="card">
+
+<div class="carrusel-portada">
+<!-- 🔴 SOLO CAMBIA NOMBRES -->
+<!-- IMAGEN = src -->
+<!-- PDF = data-pdf -->
+
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/pdf/junio1986.pdf">
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/pdf/julio1986.pdf">
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/pdf/noviembre1986.pdf">
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/pdf/diciembre1986.pdf">
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/pdf/enero1987.pdf">
+<img src="img1985/correo.jpeg" class="slide-portada" data-pdf="img1985/pdf/febrero1987.pdf">
+<img src="img1985/correo.jpeg"  class="slide-portada" data-pdf="img1985/pdf/marzo1987.pdf">
+
+
+<!-- 🔥 DUPLICA HASTA 61 -->
+
+<button class="prev" onclick="cambiarSlide(-1)">❮</button>
+<button class="next" onclick="cambiarSlide(1)">❯</button>
+
+</div>
+
+<h2>Periódico</h2>
+
+<button onclick="abrirModal()">Leer más</button>
+
+</div>
+
+<!-- MODAL -->
+<div id="modalPDF" class="modal">
+
+<div class="modal-content">
+
+<span class="cerrar" onclick="cerrarModal()">✖</span>
+
+<div class="controles">
+<button onclick="zoomIn()">+</button>
+<button onclick="zoomOut()">-</button>
+<button onclick="resetZoom()">Reset</button>
+</div>
+
+<div id="contenedorPDF">
+<iframe id="visorPDF"></iframe>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<script>
+let index = 0;
+let zoom = 1;
+
+/* CARRUSEL */
+function mostrarSlide(n){
+let slides=document.getElementsByClassName("slide-portada");
+
+if(n>=slides.length) index=0;
+if(n<0) index=slides.length-1;
+
+for(let i=0;i<slides.length;i++){
+slides[i].style.display="none";
+}
+
+slides[index].style.display="block";
+}
+
+function cambiarSlide(n){
+index+=n;
+mostrarSlide(index);
+}
+
+mostrarSlide(index);
+
+/* ABRIR PDF */
+function abrirModal(){
+let slides=document.getElementsByClassName("slide-portada");
+let pdf=slides[index].getAttribute("data-pdf");
+
+document.getElementById("visorPDF").src=pdf+"#zoom=page-width";
+document.getElementById("modalPDF").style.display="flex";
+}
+
+/* CERRAR */
+function cerrarModal(){
+document.getElementById("modalPDF").style.display="none";
+document.getElementById("visorPDF").src="";
+zoom=1;
+aplicarZoom();
+}
+
+/* ZOOM */
+function zoomIn(){zoom+=0.2;aplicarZoom();}
+function zoomOut(){if(zoom>0.4){zoom-=0.2;aplicarZoom();}}
+function resetZoom(){zoom=1;aplicarZoom();}
+
+function aplicarZoom(){
+document.getElementById("visorPDF").style.transform="scale("+zoom+")";
+}
+
+/* DRAG */
+let cont=document.getElementById("contenedorPDF");
+let down=false,startX,startY,scrollLeft,scrollTop;
+
+cont.addEventListener("mousedown",(e)=>{
+down=true;
+cont.style.cursor="grabbing";
+startX=e.pageX-cont.offsetLeft;
+startY=e.pageY-cont.offsetTop;
+scrollLeft=cont.scrollLeft;
+scrollTop=cont.scrollTop;
+});
+
+cont.addEventListener("mouseup",()=>{down=false;cont.style.cursor="grab";});
+cont.addEventListener("mouseleave",()=>{down=false;cont.style.cursor="grab";});
+
+cont.addEventListener("mousemove",(e)=>{
+if(!down)return;
+e.preventDefault();
+const x=e.pageX-cont.offsetLeft;
+const y=e.pageY-cont.offsetTop;
+cont.scrollLeft=scrollLeft-(x-startX);
+cont.scrollTop=scrollTop-(y-startY);
+});
+</script>
+
+</body>
+</html>
